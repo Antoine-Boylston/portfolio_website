@@ -4158,4 +4158,9 @@ ol li::before {
   line-height: 2rem;
 }
 
+#one .image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+  }
 
