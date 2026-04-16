@@ -1,0 +1,1365 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>3-Tier Architecture</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+</head>
+
+<body class="is-preload">
+
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="title">Home</a>
+        <nav>
+            <ul>
+
+                <li><a href="strength.html" class="active">Strength Coach App</a></li>
+                <li><a href="host.html" class="active">Hosting Website on AWS</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="inner">
+                <h1 class="major">3-Tier Architecture on AWS</h1>
+                <span class="image fit"><img src="images/pic01.jpg" alt="" /></span>
+                <h2>Introduction</h2>
+                <p>
+                    In this project, I will be building a <b>3-tier architecture</b> on AWS to demonstrate my ability to
+                    design and deploy scalable, secure, and resilient cloud solutions. A 3-tier architecture is a
+                    well-established design pattern that separates an application into three distinct layers,
+                    each responsible for a specific set of tasks.
+                </p>
+                <ul>
+                    <li>
+                        <b>Presentation Tier</b> – the front-end layer that users interact with, typically delivered
+                        through a web interface or mobile client.
+                    </li>
+                    <li>
+                        <b>Application Tier</b> – the middle layer that contains the business logic, processes
+                        requests, and connects the front-end to the data.
+                    </li>
+                    <li>
+                        <b>Database Tier</b> – the back-end layer that manages data storage, retrieval, and
+                        integrity.
+                    </li>
+                </ul>
+                <p>
+                    By clearly separating these tiers, applications gain <b>
+                        improved scalability, maintainability,
+                        and security,
+                    </b> since each tier can be developed, deployed, and scaled independently. On
+                    AWS, this design takes advantage of services that align naturally with each tier, allowing for
+                    a modern cloud-native implementation.
+                </p>
+                <p>
+                    My goal for this project is not only to build a functioning 3-tier architecture, but also to
+                    showcase my ability to apply industry best practices in cloud architecture, leverage AWS
+                    services effectively, and think critically about designing solutions that are reliable and
+                    efficient.
+                </p>
+                <h2>Phase 1: Networking</h2>
+                <p>
+                    The first step was to build the VPC. An Amazon Virtual Private Cloud (VPC) is a logically
+                    isolated section of the AWS cloud where you can launch and manage resources such as
+                    servers, databases, and applications in a secure environment. It gives you completecontrol over your
+                    networking setup, including IP address ranges, subnets, route tables, and
+                    security settings.
+                </p>
+                <p>
+                    With a VPC, you can design a network architecture like a traditional data center but with the
+                    flexibility and scalability of the cloud. This allows you to define <b>public subnets</b> for
+                    resources that need internet access, <b>private subnets</b> for secure internal resources, and
+                    use features like <b>security groups</b> and <b>network ACLs</b> to tightly control traffic flow.
+                </p>
+                <section class="vpc-steps">
+                    <div class="step-block side-by-side">
+                        <div class="image left">
+                            <img src="images/pic07.jpg" alt="VPC creation screen">
+                        </div>
+                        <div class="text">
+
+                            <ol>
+                                <li>
+                                    In the VPC dashboard, select <b>Create VPC</b> → choose <b>VPC and more</b> to
+                                    configure the
+                                    VPC, subnets, and related networking in one flow.
+                                </li>
+                                <li>
+                                    Name the VPC and set the IPv4 CIDR block to <code>10.0.0.0/16</code>.
+                                </li>
+                                <li>
+                                    Select two <b>Availability Zones (AZs)</b> for high availability.
+                                </li>
+                                <li>
+                                    Create <b>2</b> public subnets for the <b>web tier</b>.
+                                </li>
+                                <li>
+                                    Create <b>4</b> private subnets to secure backend resources: <b>2</b> for the
+                                    <b>
+                                        application
+                                        tier
+                                    </b> and
+                                    <b>2</b> for the <b>database tier</b>.
+                                </li>
+                                <li>
+                                    Set <b>NAT Gateway</b> to <b>1 AZ</b>, <b>VPC endpoints</b> to <b>None</b>, and
+                                    enable
+                                    <b>DNS hostnames</b>
+                                    and <b>DNS resolution</b>.
+                                </li>
+                                <li>
+                                    Click <b>Create VPC</b> and wait for all resources to finish provisioning.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+                <!-- Second image + new steps below -->
+                <section class="vpc-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic08.jpg" alt="VPC created successfully"
+                                style="width:80%; display:block; margin:0 auto;">
+
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 8;">
+                                <!-- continues numbering from previous -->
+                                <li>
+                                    After creating the VPC, navigate to the <b>Subnets</b> section and verify all six
+                                    subnets were created
+                                </li>
+                                <li>
+                                    We now need to configure each public subnet to auto-assign public IPv4 so they can
+                                    be publicly accessed through the internet. To configure, select one of the public
+                                    subnets and click <b>Actions</b> on the top right, then click <b>
+                                        Edit subnet
+                                        settings
+                                    </b>.
+                                </li>
+                                <li>
+                                    Select <b>Enable auto-assign public IPv4 address</b>, then click <b>Save</b>. Repeat
+                                    for the second public subnet.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+                <section class="presentation-intro">
+                    <h2>Phase 2: Presentation Tier</h2>
+                    <p>
+                        To build the <strong>presentation layer</strong> of the 3-tier architecture, we'll launch
+                        <strong>Amazon EC2 instances</strong> inside an <strong>Auto Scaling Group (ASG)</strong>.
+                    </p>
+
+                    <p>
+                        Amazon Elastic Compute Cloud (<strong>EC2</strong>) is a service that provides secure, resizable
+                        compute capacity in the cloud. It lets you launch virtual servers, configure operating systems
+                        and applications, and pay only for the compute time you use. With EC2, you have full control
+                        over
+                        your instances—similar to managing your own servers in a data center—while gaining the
+                        scalability
+                        and flexibility of AWS.
+                    </p>
+
+                    <p>
+                        An <strong>Auto Scaling Group</strong> ensures the right number of EC2 instances are always
+                        running
+                        to handle demand. It automatically adds instances when traffic increases and removes them when
+                        demand falls, helping maintain performance while optimizing costs. ASGs also improve fault
+                        tolerance
+                        by distributing instances across Availability Zones and replacing unhealthy ones automatically.
+                    </p>
+
+                    <p>
+                        For this project, we'll launch an Auto Scaling Group into the <strong>two public
+                            subnets</strong>
+                        created
+                        in Phase 1. By placing the EC2 instances in public subnets, they can receive traffic from the
+                        internet,
+                        forming the <strong>web tier</strong> of the application. This setup ensures that the
+                        presentation
+                        layer
+                        is <strong>highly available, fault-tolerant, and capable of scaling</strong> in response to user
+                        demand.
+                    </p>
+                </section>
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic09.jpg" alt="Create Auto Scaling Group"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol>
+                                <li>
+                                    Begin by navigating to the <strong>EC2 dashboard</strong> and selecting
+                                    <strong>Auto Scaling Groups</strong> from the left-hand menu.
+                                </li>
+                                <li>
+                                    Click <strong>Create Auto Scaling Group</strong> to start building the template
+                                    that defines how the Auto Scaling Group will launch EC2 instances.
+                                </li>
+                                <li>
+                                    Enter a name for your Auto Scaling Group and then click <strong>
+                                        Create a launch
+                                        template
+                                    </strong>.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+                <!-- Second image + new steps below -->
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic10.jpg" alt="Creating Launch Template"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 4;">
+                                <!-- continues numbering from previous -->
+                                <li>
+                                    In the launch template window, start by naming your template.
+                                    Then select the <strong>Amazon Linux 2 AMI</strong> and choose the
+                                    <strong>t2.micro</strong>
+                                    instance type.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic11.jpg" alt="Key pair & Security Group"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 5;">
+                                <!-- continues numbering from previous -->
+                                <li>
+                                    Next, select an existing key pair or create a new one.
+                                    After that, create a new <strong>Security Group</strong>.
+                                </li>
+                                <li>
+                                    Name your Security Group and be sure to associate it with the
+                                    <strong>VPC</strong> you created earlier.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic12.jpg" alt="Network settings"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 7;">
+                                <!-- continues numbering from previous -->
+                                <li>
+                                    Configure the inbound rules to allow <strong>SSH (port 22)</strong>,
+                                    <strong>HTTP (port 80)</strong>, and <strong>HTTPS (port 443)</strong> access
+                                    to your public-facing EC2 instances from anywhere
+                                    <strong>(<code>0.0.0.0/0</code>)</strong>.
+                                </li>
+                                <li>
+                                    Leave the remaining options at their defaults and scroll down to
+                                    <strong>Advanced details</strong>.
+                                </li>
+                                <li>
+                                    Paste the following script in the <strong>User data</strong> field,
+                                    then click <strong>Create launch template</strong>.
+                                </li>
+                            </ol>
+
+                            <pre><code class="language-bash">#!/bin/bash
+
+# Update yum packages
+yum update -y
+
+# Install Apache HTTP Web Server
+yum install -y httpd.x86_64
+
+# Start and enable Apache
+systemctl start httpd.service
+systemctl enable httpd.service
+
+# Creates a custom index page (demo welcome page)
+echo "&lt;html&gt;&lt;body&gt;&lt;h1&gt;Welcome to Antoine's Presentation Layer!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;" > /var/www/html/index.html
+</code></pre>
+                        </div>
+                    </div>
+                    <div class="text">
+                        <p>
+                            This script automatically installs and configures the Apache web server, starts the service,
+                            and creates a custom <code>index.html</code> page. By including this script, each new
+                            instance
+                            comes online as a fully configured web server without requiring manual setup.
+                            This ensures every EC2 instance launched by the Auto Scaling Group is immediately
+                            ready to serve traffic.
+                        </p>
+                    </div>
+
+
+
+
+                </section>
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic12.jpg" alt="Select Launch template"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 10;">
+                                <!-- continues numbering from previous -->
+                                <li>
+                                    Once the launch template has finished creating successfully,
+                                    return to the <strong>Auto Scaling Groups</strong> console.
+                                </li>
+                                <li>
+                                    Select the launch template you just created and click <strong>Next</strong>.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic13.jpg" alt="ASG Network info"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 12;">
+                                <!-- continues numbering from previous -->
+                                <li>
+                                    Select the project <strong>VPC</strong> you created earlier and
+                                    choose <strong>two public subnets</strong> across different Availability Zones
+                                    (AZs).
+                                    This ensures that the web tier instances launched by the Auto Scaling Group are
+                                    publicly accessible and distributed across multiple AZs for
+                                    <strong>high availability</strong> and <strong>fault tolerance</strong>.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic14.jpg" alt="Create and attach an Application Load Balancer"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 13;"> <!-- continues numbering from previous -->
+                                <li>
+                                    Attach the <strong>Auto Scaling Group</strong> to a new
+                                    <strong>Application Load Balancer (ALB)</strong>.
+                                    An ALB distributes HTTP/HTTPS traffic across multiple EC2 instances to improve
+                                    availability
+                                    and fault tolerance. Choose <strong>Attach to a new load balancer</strong>,
+                                    then select <strong>Application Load Balancer</strong>.
+                                </li>
+                                <li>
+                                    Name your load balancer, then select <strong>Internet-facing</strong>.
+                                </li>
+                                <li>
+                                    Ensure your <strong>VPC</strong> and both public subnets are selected.
+                                    Under <strong>Listeners and routing</strong>, choose <strong>Create a target
+                                        group</strong>.
+                                    This target group will register your EC2 instances for the ALB to route traffic
+                                    to.
+                                </li>
+                                <li>
+                                    Scroll down and select <strong>Enable group metrics collection within
+                                        CloudWatch</strong>
+                                    to allow detailed monitoring of the Auto Scaling Group.
+                                    Then click <strong>Next</strong>.
+                                </li>
+
+
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic15.jpg" alt="Configure group size and scaling policies"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 17;"> <!-- continues numbering from previous -->
+                                <li>
+                                    In the <strong>Configure group size and scaling policies</strong> section,
+                                    set <strong>Desired capacity</strong> to 2, <strong>Minimum capacity</strong> to 2,
+                                    and <strong>Maximum capacity</strong> to 5.
+                                </li>
+                                <li>
+                                    Under <strong>Scaling policies</strong>, select <strong>Target tracking
+                                        policy</strong>.
+                                    Make sure the <strong>Metric type</strong> is <strong>Average CPU
+                                        utilization</strong> and
+                                    the <strong>Target value</strong> is set to 50.
+                                    Then click <strong>Next</strong>.
+                                </li>
+                                <li>
+                                    Continue through the remaining pages by clicking <strong>Next</strong> until you
+                                    reach the
+                                    <strong>Review</strong> page. Scroll down and click <strong>Create Auto Scaling
+                                        group</strong>.
+                                </li>
+                            </ol>
+                            <p>
+                                ✅ Your Web Tier's Auto Scaling Group has now been created.
+                                Wait a few minutes for it to update the capacity and provision the new EC2 instances.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic16.jpg" alt="EC2 Instances running"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <p>
+                                Navigate to your <strong>EC2 Instances</strong> in the AWS console.
+                                You should see two instances launched by the Auto Scaling Group.
+                                Once their state changes to <strong>Running</strong>, copy the public IPv4 address of
+                                one
+                                instance
+                                and paste it into your browser.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="presentation-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic17.jpg" alt="Custom welcome page from EC2"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <p>
+                                If the setup was successful, the request is routed to your instance and you’ll be
+                                greeted with
+                                the
+                                custom <em>“Welcome to Antoine’s Presentation Layer!”</em> webpage created by the User
+                                Data
+                                script.
+                            </p>
+                            <p>
+                                ✅ This confirms that the EC2 instances in the Auto Scaling Group are launching
+                                correctly,
+                                automatically configuring with Apache, and serving web traffic as intended.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                <section class="application-intro">
+                    <h2>Phase 3: Application Tier</h2>
+                    <p>
+                        With the web tier in place, the next step in building my 3-tier architecture is the
+                        <strong>Application
+                            Tier</strong>.
+                        This layer contains the business logic that processes requests from the web tier and connects to
+                        the
+                        database tier.
+                        To deploy it, we’ll create a second <strong>Auto Scaling Group (ASG)</strong> that launches EC2
+                        instances in
+                        the two private subnets.
+                    </p>
+
+                    <p>
+                        Unlike the web tier, these instances are not publicly accessible.
+                        They are designed to only accept inbound traffic from the web tier’s security group.
+                        This separation adds a layer of security while ensuring that the application servers can scale
+                        dynamically
+                        based on demand.
+                    </p>
+
+                    <p>
+                        You can think of the application tier as the <em>“engine room”</em> of the architecture.
+                        It takes user requests from the front end, applies the core logic, and communicates securely
+                        with the
+                        database tier for any required data.
+                    </p>
+                </section>
+                <section class="application-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic18.jpg" alt="App Tier AMI"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 1;"> <!-- continues numbering from previous -->
+                                <li>
+                                    For consistency, select the same <strong>Amazon Linux 2023 (kernel 6.1) AMI</strong>
+                                    and
+                                    <strong>t2.micro instance type</strong> as we used in the web tier. Using the same
+                                    AMI ensures
+                                    that both tiers run on a lightweight, AWS-optimized operating system, while the
+                                    t2.micro instance type provides a cost-effective option suitable for demonstration
+                                    purposes. By keeping the configuration consistent across tiers, it’s easier to
+                                    manage and troubleshoot the environment while still
+                                    maintaining clear separation of responsibilities between the web and application
+                                    layers.
+                                </li>
+
+                            </ol>
+
+                        </div>
+                    </div>
+                </section>
+
+                <section class="application-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic19.jpg" alt="Private ASG network settings"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 2;">
+                                <li>
+                                    Configure the <strong>Application Tier security group</strong> to allow inbound
+                                    <strong>SSH (22)</strong> <em>only</em> from the <strong>Web Tier security
+                                        group</strong>.
+                                    This limits administrative access to traffic originating from the web tier.
+                                </li>
+                                <li>
+                                    Allow <strong>ICMP</strong> from the Web Tier security group to enable basic
+                                    connectivity
+                                    testing (e.g., ping) between tiers.
+                                </li>
+                            </ol>
+                            <p>
+                                With these rules in place, the Application Tier remains isolated from the public
+                                internet while
+                                still accessible from the Web Tier when needed. This layered approach enforces
+                                <strong>least privilege</strong> by restricting communication to only what’s required
+                                and reduces
+                                the overall attack surface.
+                            </p>
+
+                            <p style="background:#fff3cd;
+          border-left:4px solid #ffca28;
+          padding:.75rem 1rem;
+          margin-top:1rem;
+          font-weight:500;
+          color:#000;">
+                                💡 Best practice: In production, consider replacing SSH with AWS Systems Manager (SSM)
+                                Session Manager
+                                to avoid opening port 22 entirely.
+                            </p>
+
+                        </div>
+                    </div>
+                </section>
+
+                <section class="application-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic20.jpg" alt="Application Tier subnet mapping"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 4;">
+                                <li>
+                                    After creating the launch template, return to the <strong>Auto Scaling
+                                        Group</strong> configuration
+                                    and select your new template.
+                                </li>
+                                <li>
+                                    Choose the project <strong>VPC</strong> and map the group to
+                                    <strong>two private subnets</strong> in different <strong>Availability
+                                        Zones</strong>.
+                                </li>
+                            </ol>
+                            <p>
+                                This ensures Application Tier instances launch in private subnets (no direct internet
+                                exposure) and
+                                are distributed across AZs for <strong>high availability</strong> and
+                                <strong>fault tolerance</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="application-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic21.jpg" alt="App Tier Load Balancer"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 6;">
+                                <li>
+                                    To handle requests from the Web Tier, create an
+                                    <strong>Application Load Balancer (ALB)</strong> and configure it to distribute
+                                    traffic
+                                    to the <strong>Auto Scaling Group</strong> running EC2 instances in the Application
+                                    Tier.
+                                </li>
+                            </ol>
+
+                            <p>
+                                By placing the ALB between the Web Tier and the Application Tier, traffic is routed
+                                efficiently
+                                across multiple instances, improving scalability, fault tolerance, and availability.
+                                This also keeps the Application Tier private and only accessible through controlled
+                                traffic
+                                originating from the Web Tier.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="application-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic22.jpg" alt="App Tier group size and scaling policy"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 7;">
+                                <li>
+                                    Configure the <strong>group size</strong> and <strong>scaling policy</strong> for
+                                    the
+                                    Application Tier’s Auto Scaling Group, just as you configured for the Web Tier.
+                                </li>
+                                <li>
+                                    Click <strong>Next</strong> until you arrive at the <strong>Review</strong> page.
+                                    Scroll down and click <strong>Create Auto Scaling group</strong>.
+                                </li>
+                            </ol>
+
+
+                        </div>
+                    </div>
+                </section>
+                <section class="application-intro">
+                    <p>
+                        By applying this consistent scaling approach, the Application Tier gains the same
+                        benefits of elasticity, high availability, and resilience.
+                        This ensures it can seamlessly adjust to variable traffic demands while remaining
+                        securely isolated within the private subnets.
+                    </p>
+                </section>
+
+                <section class="application-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic23.jpg" alt="App Tier EC2s"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 9;">
+                                <li>
+                                    Wait a few minutes for the Auto Scaling Groups to update capacity and launch new EC2
+                                    instances.
+                                    You should now see <strong>4 EC2 instances</strong> in total — 2 from the Web Tier
+                                    and 2 from the
+                                    Application Tier — each managed by its own ASG and fronted by an Application Load
+                                    Balancer.
+                                </li>
+                                <li>
+                                    Once the EC2 instances are running, select one of the <strong>Web Tier
+                                        instances</strong>, choose
+                                    <strong>Actions</strong> from the top-right menu, and select
+                                    <strong>Connect</strong>.
+                                </li>
+                                <li>
+                                    In the connection options, choose the <strong>SSH Client</strong> tab and follow the
+                                    instructions
+                                    to connect to your instance using its <strong>Public DNS</strong>.
+                                </li>
+                                <li>
+                                    After connecting to your Web Tier instance, test connectivity to the Application
+                                    Tier by
+                                    pinging the private IPv4 address of one of the instances in the private subnet:
+                                    <pre><code>ping &lt;app_tier_ec2_private_ip_address&gt;</code></pre>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="application-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic24.jpg" alt="EC2 SSH ping verification"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <p>You should start to receive responses, as seen above.</p>
+                            <p>✅ This verifies basic connectivity between the Web Tier and Application Tier.</p>
+                            <ol style="--start: 13;">
+                                <li>
+                                    Now that you’ve confirmed connectivity to the private IP, you can SSH into the
+                                    Application Tier
+                                    instance from the Web Tier. First, exit out of your current EC2 connection by
+                                    running:
+                                    <pre><code>exit</code></pre>
+                                </li>
+                                <li>
+                                    Reconnect to your Web Tier EC2 instance with SSH agent forwarding enabled:
+                                    <pre><code>ssh -A ec2-user@&lt;web_tier_ec2_public_ipv4_address&gt;</code></pre>
+                                </li>
+                                <li>
+                                    Once connected to your Web Tier instance, SSH into the Application Tier EC2 instance
+                                    in the private subnet:
+                                    <pre><code>ssh -A ec2-user@&lt;app_tier_ec2_private_ip_address&gt;</code></pre>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="application-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic25.jpg" alt="EC2 SSH connectivity verification"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+
+                    </div>
+                </section>
+                <section class="application-intro">
+
+                    <p>✅ SSH connectivity from a Web Tier EC2 instance to an Application Tier EC2 instance in
+                        the private subnet has been successfully verified.</p>
+
+                    <p>
+                        Web Tier → Application Tier communication is functioning as intended, with traffic
+                        restricted to flow only between tiers inside the VPC.
+                        You can now proceed to <strong>Step 4: Building the Database Tier!</strong>
+                    </p>
+
+                </section>
+
+                <section class="database-intro">
+                    <h2>Phase 4: Database Tier</h2>
+                    <p>
+                        For the <strong>Database Tier</strong>, we’ll use <strong>Amazon DynamoDB</strong> — a fully
+                        managed NoSQL
+                        key-value and document database. DynamoDB delivers single-digit millisecond latency, scales
+                        automatically,
+                        and includes built-in features like point-in-time recovery (PITR) backups and encryption by
+                        default.
+                        It’s an ideal choice here because it demonstrates scalability and simplicity while eliminating
+                        the need
+                        to provision or manage database servers.
+                    </p>
+
+                    <p>
+                        You can think of DynamoDB as a highly scalable, serverless filing cabinet in the cloud.
+                        You store and retrieve items by key, while AWS handles the heavy lifting of scaling, durability,
+                        and security
+                        behind the scenes.
+                    </p>
+                </section>
+
+                <section>
+                    <div class="text">
+                        <ol>
+                            <li>
+                                To begin, create an <strong>Orders</strong> table in DynamoDB.
+                                Navigate to <strong>DynamoDB</strong> in the AWS Console and select
+                                <strong>Tables</strong> from the left-hand navigation pane.
+                            </li>
+                            <li>
+                                Click <strong>Create table</strong>.
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="database-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic26.jpg" alt="Table details"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 3;">
+                                <li>
+                                    Name the table <strong>Orders</strong>.
+                                    For the <strong>Partition key</strong>, enter <code>orderId</code>,
+                                    and for the <strong>Sort key</strong>, enter <code>createdAt</code>.
+                                    The partition key ensures each order record is uniquely identifiable,
+                                    while the sort key allows for time-ordered queries.
+                                    This design makes it easy to retrieve all orders for a given orderId
+                                    and sort them by creation time.
+                                </li>
+                                <li>
+                                    Under <strong>Table settings</strong>, keep the default option
+                                    (<strong>Default settings</strong>), then choose <strong>Create table</strong>.
+                                </li>
+                            </ol>
+
+
+
+
+                        </div>
+                    </div>
+                </section>
+                <section class="database-intro">
+                    <p>
+                        Once the table is in <strong>ACTIVE</strong> status, the next step is to keep all database
+                        traffic private by creating a
+                        <strong>VPC Gateway Endpoint</strong> for DynamoDB. This ensures that requests from the
+                        Application Tier instances to DynamoDB
+                        stay within the AWS network and never traverse the public internet. Using this endpoint allows
+                        your application servers
+                        in private subnets to securely access DynamoDB without requiring a NAT Gateway or Internet
+                        Gateway, improving both
+                        security and cost efficiency.
+                    </p>
+                </section>
+
+                <section class="database-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic27.jpg" alt="DynamoDB VPC Endpoint"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 5;">
+                                <li>
+                                    Open the <strong>Amazon VPC console</strong>. In the navigation pane, choose
+                                    <strong>Endpoints</strong>, then select <strong>Create endpoint</strong>.
+                                </li>
+                                <li>
+                                    For <strong>Type</strong>, choose <strong>AWS services</strong>.
+                                    Under <strong>Service Name</strong>, select the <strong>DynamoDB Gateway</strong>.
+                                </li>
+                                <li>
+                                    Select the VPC created for this project, and associate it with the
+                                    <strong>private route tables</strong>.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="database-intro">
+                    <p>
+                        To allow the Application Tier EC2 instances to access DynamoDB securely, we'll create a new IAM
+                        role
+                        and select EC2 as
+                        the trusted service. This ensures that the role can be attached directly to the Application Tier
+                        instances (via their Auto
+                        Scaling Group), giving them permissions to interact with DynamoDB without the need to store or
+                        manage access keys
+                        on the servers
+                    </p>
+                </section>
+                <section class="database-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic28.jpg" alt="IAM role for App Tier"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 8;">
+                                <li>
+                                    In the AWS Management Console, navigate to <strong>IAM</strong> →
+                                    <strong>Roles</strong>,
+                                    then choose <strong>Create role</strong>.
+                                </li>
+                                <li>
+                                    For <strong>Trusted entity type</strong>, select <strong>AWS service</strong>.
+                                    Under <strong>Use case</strong>, choose <strong>EC2</strong>, then click
+                                    <strong>Next</strong>.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="database-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic29.jpg" alt="IAM role for App Tier"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 11;">
+                                <li>
+                                    In the <strong>Policy editor</strong>, attach the following policy:
+                                    <pre><code>{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "OrdersRW",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem"
+            ],
+            "Resource": "arn:aws:dynamodb:us-east-1:651670762517:table/Orders"
+        }
+    ]
+}
+</code></pre>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="database-intro">
+                    <p>
+                        This least-privilege policy grants the Application Tier EC2 instances only the
+                        necessary permissions to read and write data in the <strong>Orders</strong> table.
+                        By restricting access to the minimum required actions, it ensures secure data
+                        handling while reducing the blast radius in case of a misconfiguration or
+                        compromise. Following the principle of least privilege strengthens the overall
+                        security of the architecture.
+                    </p>
+
+                    <p>
+                        Now that the <strong>DynamoDBRole</strong> has been created, the next step is to attach it
+                        to the Application Tier EC2 instances. By assigning the IAM role directly to the instances,
+                        they can securely access DynamoDB without the need for hardcoded credentials or access keys.
+                        This setup leverages the <strong>AWS Instance Metadata Service (IMDS)</strong>, which
+                        automatically
+                        provides temporary credentials to the EC2 instances under the assigned role.
+                    </p>
+                </section>
+
+                <section class="database-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic30.jpg" alt="Attach IAM to EC2"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <div class="text">
+                            <ol style="--start: 14;">
+                                <li>
+                                    In the AWS Management Console, navigate to <strong>EC2</strong> →
+                                    <strong>Instances</strong>. Select one of the Application Tier instances, then
+                                    choose <strong>Actions</strong> → <strong>Security</strong> →
+                                    <strong>Modify IAM role</strong>.
+                                </li>
+                                <li>
+                                    From the drop-down list, select the <strong>DynamoDBRole</strong> you created.
+                                </li>
+                                <li>
+                                    Repeat this process for both Application Tier instances to ensure they can
+                                    securely connect to DynamoDB.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="database-intro">
+                    <p>
+                        With this step complete, all tiers of the 3-tier architecture are now in place.
+                        The final phase is testing and validation to confirm that everything is configured
+                        correctly and functioning as expected.
+                    </p>
+                </section>
+
+                <section class="database-intro">
+                    <h2>Testing and Validation</h2>
+                    <p>
+                        With all three tiers of the architecture deployed, we can now perform a series of tests to
+                        validate
+                        connectivity, security, and functionality across the stack. Starting with the Web → Application
+                        Tier,
+                        confirm private connectivity through the configured security group rules. Next, from the
+                        Application Tier,
+                        verify that the attached IAM role and VPC endpoint enable secure, credential-free access to
+                        DynamoDB.
+                        Finally, test read and write operations both through the AWS CLI and with a simple Python
+                        application
+                        running directly on an Application Tier instance.
+                    </p>
+
+                    <p>
+                        These validation steps confirm that each layer of the 3-tier architecture is properly isolated,
+                        connected only where required, and functioning as intended.
+                    </p>
+                </section>
+                <section class="database-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic31.jpg" alt="Troubleshooting IAM Role Attachment"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <p>
+                            The image above shows where I attempted to verify the IAM role from an Application Tier
+                            instance
+                            using the <strong>EC2 Instance Metadata Service (IMDS)</strong>. However, I kept receiving
+                            <code>404 – Not Found</code> responses. After reviewing my setup, I realized I had
+                            mistakenly
+                            attached the <strong>AppTierDynamoDBRole</strong> to my Web Tier instances instead of the
+                            Application Tier Auto Scaling Group.
+                        </p>
+                        <p>
+                            This turned out to be a useful debugging moment because it demonstrated how IMDS returns a
+                            404
+                            when no role is attached to an instance. Identifying this helped me confirm the root cause
+                            of the issue.
+                            Once corrected, the Application Tier instances were able to assume the role and securely
+                            access
+                            DynamoDB without requiring credentials.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="database-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic32.jpg" alt="Verify IAM Role Attachment"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <p>
+                            After reattaching the <strong>AppTierDynamoDBRole</strong> to my Application Tier instances,
+                            I re-ran the metadata commands. This time, the <strong>EC2 Instance Metadata Service
+                                (IMDS)</strong>
+                            successfully returned details about the attached IAM role and temporary security
+                            credentials.
+                            This confirmed that the Application Tier instances now had the correct permissions to
+                            interact
+                            with DynamoDB without the need for hardcoded access keys.
+                        </p>
+                        <p>
+                            This validation step confirmed that my least-privilege IAM setup was working as intended.
+                            Be sure to review and run the metadata commands shown above to test your own role
+                            attachments as well.
+                        </p>
+                    </div>
+                </section>
+                <section class="database-steps">
+                    <div class="step-block">
+                        <div class="image center">
+                            <img src="images/pic33.jpg" alt="AppTier to DynamoDB"
+                                style="width:80%; display:block; margin:0 auto;">
+                        </div>
+                        <p>
+                            The image above shows an Application Tier EC2 instance where I successfully ran a
+                            <code>put-item</code> command to insert a new record into the <strong>Orders</strong> table,
+                            followed by a <code>get-item</code> command to retrieve it. The returned JSON includes the
+                            expected attributes (<code>orderId</code>, <code>createdAt</code>, <code>status</code>, and
+                            <code>amount</code>), confirming that the IAM role, VPC endpoint, and DynamoDB integration
+                            are
+                            all functioning as intended. This validates secure, credential-free access from the
+                            Application
+                            Tier to the Database Tier.
+                        </p>
+                        <p>
+                            Try it yourself using the following AWS CLI commands:
+                        </p>
+                        <pre><code># Insert a new order into the Orders table
+aws dynamodb put-item \
+    --table-name Orders \
+    --item '{
+        "orderId": {"S": "1001"},
+        "createdAt": {"S": "2025-09-30T12:00:00Z"},
+        "status": {"S": "PENDING"},
+        "amount": {"N": "49.99"}
+    }'
+
+# Retrieve the inserted order
+aws dynamodb get-item \
+    --table-name Orders \
+    --key '{
+        "orderId": {"S": "1001"},
+        "createdAt": {"S": "2025-09-30T12:00:00Z"}
+    }'
+</code></pre>
+                    </div>
+                </section>
+
+                <section class="database-intro">
+
+                </section>
+                <section class="database-intro">
+                    <section class="database-intro">
+                        <h2>Python Validation</h2>
+                        <p>
+                            For the next validation step, we’ll run a simple Python script to interact with DynamoDB
+                            using the <strong>boto3</strong> SDK.
+                        </p>
+                        <section class="text">
+                            <ol>
+                                <li>
+                                    To prepare the environment, first install <strong>python3-pip</strong> on the
+                                    Application Tier EC2 instance. This package manager allows you to install
+                                    additional Python libraries, such as boto3. Run:
+                                    <pre><code>sudo dnf -y install python3-pip</code></pre>
+                                </li>
+                            </ol>
+                        </section>
+                    </section>
+
+                    <section class="database-steps">
+                        <div class="step-block">
+                            <div class="image center">
+                                <img src="images/pic34.jpg" alt="Python environment setup"
+                                    style="width:80%; display:block; margin:0 auto;">
+                            </div>
+                            <section class="text">
+                                <ol style="--start: 2;">
+                                    <li>
+                                        Next, create and activate a Python virtual environment, then install boto3:
+                                        <pre><code>python3 -m venv ~/venv</code></pre>
+                                        <pre><code>source ~/venv/bin/activate</code></pre>
+                                        <pre><code>pip install --upgrade pip boto3</code></pre>
+                                        This creates an isolated Python environment, upgrades <strong>pip</strong>,
+                                        and installs the AWS SDK for Python (<strong>boto3</strong>). With this setup,
+                                        you can write and run Python scripts that securely interact with DynamoDB
+                                        using the IAM role attached to the instance.
+                                    </li>
+                                </ol>
+                            </section>
+                        </div>
+                    </section>
+
+                    <section class="database-steps">
+                        <div class="step-block">
+                            <div class="image center">
+                                <img src="images/pic35.jpg" alt="Virtual Environment and installing Boto3"
+                                    style="width:80%; display:block; margin:0 auto;">
+                            </div>
+                            <section class="text">
+                                <ol style="--start: 3;">
+
+
+                                    <li>
+                                        <strong>Create the script file:</strong>
+                                        <p>Open a new file called <code>orders_demo.py</code> and paste in the code
+                                            below.</p>
+                                        <pre><code>nano ~/orders_demo.py</code></pre>
+                                        <pre><code>import os, json, datetime
+from decimal import Decimal
+import boto3
+
+REGION = os.getenv("AWS_REGION", "us-east-1")
+TABLE  = os.getenv("TABLE_NAME", "Orders")
+
+dynamodb = boto3.resource("dynamodb", region_name=REGION)
+table = dynamodb.Table(TABLE)
+
+order_id   = "ORD-1002"
+created_at = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+# Write an item
+table.put_item(Item={
+    "orderId":   order_id,
+    "createdAt": created_at,
+    "status":    "PAID",
+    "amount":    Decimal("109.95")   # DynamoDB + Python gotcha: use Decimal, not float
+})
+
+# Custom encoder to handle Decimal when printing JSON
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return float(obj)
+        return super(DecimalEncoder, self).default(obj)
+
+# Read it back
+res = table.get_item(Key={"orderId": order_id, "createdAt": created_at})
+print(json.dumps(res.get("Item", {}), indent=2, cls=DecimalEncoder))</code></pre>
+                                    </li>
+
+                                    <li>
+                                        <strong>Run the script:</strong>
+                                        <p>Make sure your virtual environment from the previous step is still active
+                                            (<code>(venv)</code> in your prompt). Then run:</p>
+                                        <pre><code>python3 ~/orders_demo.py</code></pre>
+                                        <p><em>Expected output:</em> Pretty-printed JSON containing
+                                            <code>orderId</code>, <code>createdAt</code>, <code>status</code>, and
+                                            <code>amount</code>.
+                                        </p>
+                                    </li>
+                                    <div class="image center">
+                                        <img src="images/pic36.jpg" alt="Virtual Environment and installing Boto3"
+                                            style="width:80%; display:block; margin:0 auto;">
+                                    </div>
+                                    <li>
+                                        <strong>Verify in DynamoDB or via CLI:</strong>
+                                        <pre><code>aws dynamodb get-item \
+  --table-name "$TABLE_NAME" \
+  --key "{\"orderId\":{\"S\":\"ORD-1002\"},\"createdAt\":{\"S\":\"$created_at\"}}"</code></pre>
+                                        <p>Or open the DynamoDB console → <strong>Tables</strong> →
+                                            <strong>Orders</strong> → <strong>Explore table items</strong>.
+                                        </p>
+                                    </li>
+                                </ol>
+                                <img src="images/pic37.jpg" alt="Virtual Environment and installing Boto3"
+                                    style="width:80%; display:block; margin:0 auto;">
+                        </div>
+
+
+            </div>
+    </div>
+    </section>
+    <section class="database-intro">
+        <h3>Troubleshooting tips</h3>
+        <div class style="text">
+            <ul>
+                <li><strong>AccessDeniedException</strong>: Confirm your instance’s IAM role has the
+                    policy granting <code>PutItem</code>/<code>GetItem</code> on the
+                    <code>Orders</code> table.
+                </li>
+                <li><strong>IMDS 404 / No credentials</strong>: Ensure the IAM role is attached to
+                    the <em>Application Tier</em> instances (or their Auto Scaling Group), not the
+                    Web Tier.</li>
+                <li><strong>Timeout or no route</strong>: Verify the DynamoDB <strong>VPC Gateway
+                        Endpoint</strong> is associated with your private route tables.</li>
+                <li><strong>Float serialization error</strong>: Use <code>Decimal("109.95")</code>
+                    instead of Python floats.</li>
+            </ul>
+        </div>
+    </section>
+    <section class="database-intro">
+        <h2>Conclusion</h2>
+        <p>
+            This project demonstrated the design and deployment of a secure, scalable 3-tier
+            architecture on AWS. By separating the Web, Application, and Database tiers, I
+            implemented industry best practices for isolation, availability, and resilience.
+            End-to-end testing confirmed that each layer communicates as intended, with the
+            Application Tier securely interacting with DynamoDB through IAM roles and private
+            networking.
+        </p>
+        <p>
+            While this deployment involved many manual steps, configurations, and console clicks,
+            the entire process can be automated using Infrastructure as Code (IaC) tools such as
+            <strong>Terraform</strong> or <strong>AWS CloudFormation</strong>. However, going through
+            the manual setup is valuable for building a fundamental understanding of how the
+            components work together and where each configuration fits into the overall design.
+        </p>
+    </section>
+    <section class="database-intro">
+        <h2>Teardown</h2>
+        <p>
+            Tearing down resources is just as important as building them, since it prevents
+            unnecessary charges. Deleting resources in the correct order also avoids dependency
+            errors (for example, a VPC cannot be deleted while subnets, gateways, or load balancers
+            are still attached). Because I plan to repeat this project for practice, I use the
+            following teardown checklist to ensure everything is removed cleanly before starting fresh:
+        </p>
+
+        <ul>
+            <li>
+                <strong>Application Layer (App Tier)</strong>
+                <ul>
+                    <li>Delete the Application Load Balancer (ALB) for the App Tier.</li>
+                    <li>Delete the Auto Scaling Group for the App Tier.</li>
+                    <li>Delete the Launch Template for the App Tier.</li>
+                    <li>Verify that the EC2 instances in the private subnets are terminated.</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>Presentation Layer (Web Tier)</strong>
+                <ul>
+                    <li>Delete the Web Tier ALB.</li>
+                    <li>Delete the Auto Scaling Group for the Web Tier.</li>
+                    <li>Delete the Launch Template for the Web Tier.</li>
+                    <li>Verify that the EC2 instances in the public subnets are terminated.</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>Database Layer</strong>
+                <ul>
+                    <li>Export any test data you want to keep.</li>
+                    <li>Delete the DynamoDB table (<code>Orders</code>).</li>
+                    <li>Delete the VPC Endpoint for DynamoDB.</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>IAM Roles and Policies</strong>
+                <ul>
+                    <li>Detach and delete the <code>AppTierDynamoDBRole</code>.</li>
+                    <li>Delete the custom least-privilege policy created for DynamoDB access.</li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>Networking (VPC and Subnets)</strong>
+                <ul>
+                    <li>Delete the Security Groups created for the Web Tier and App Tier (ensure no instances are
+                        attached).</li>
+                    <li>Delete the Subnets (public and private).</li>
+                    <li>Delete the Route Tables (except the main route table, which is removed with the VPC).</li>
+                    <li>Detach and delete the Internet Gateway.</li>
+                    <li>Release any Elastic IPs that are no longer attached to running instances.</li>
+                    <li>Finally, delete the VPC.</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <footer id="footer" class="wrapper alt">
+        <div class="inner">
+            <ul class="menu">
+                <li>&copy; Antoine-Boylston. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
