@@ -221,75 +221,37 @@
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
 	<script>
-		const projects = [
-			{
-				title: "Industrial Automation & PLC Systems",
-				summary: "Designed PLC-based control systems including motor interlocking, timer-based sequencing, and HMI integration using ladder logic.",
-				imageUrl: "images/projects/door-control/door-sim.PNG",
-				detailsUrl: "door-control.html",
-				imagePosition: "center center",
-				buttonText: "View Project"
-			},
-			{
-				title: "3-Tier Architecture on AWS",
-				summary: "Designed and deployed a secure 3-tier architecture on AWS with web, app, and database layers.",
-				imageUrl: "images/pic01.jpg",
-				detailsUrl: "3-tier.html",
-				imagePosition: "center center",
-				buttonText: "Learn more"
-			},
-			{
-				title: "CS-499 Capstone Code Review",
-				summary: "Recorded code review walkthrough introducing the original artifact, planned enhancements, and overall capstone direction.",
-				imageUrl: "images/capstone_thumbnail.png",
-				detailsUrl: "capstone-video.html",
-				imagePosition: "top center",
-				buttonText: "View details"
-			},
-			{
-				title: "GitHub Projects",
-				summary: "Explore my GitHub repositories featuring coursework, technical projects, and ongoing development work.",
-				imageUrl: "images/git_tumbnail.png",
-				detailsUrl: "https://github.com/Antoine-Boylston",
-				imagePosition: "25% 25%",
-				buttonText: "View GitHub"
-			}
-		];
+	function renderProjects(projectList) {
+		const container = document.getElementById("one");
 
-		function renderProjects(projectList) {
-			const container = document.getElementById("one");
+		container.innerHTML = "";
 
-			container.innerHTML = "";
-
-			projectList.forEach(project => {
-				const projectHTML = `
-					<section>
-						<a href="${project.detailsUrl}" class="image" ${project.detailsUrl.startsWith("http") ? 'target="_blank" rel="noopener noreferrer"' : ""}>
-							<img src="${project.imageUrl}" alt="${project.title}" data-position="${project.imagePosition}" />
-						</a>
-						<div class="content">
-							<div class="inner">
-								<h2>${project.title}</h2>
-								<p>${project.summary}</p>
-								<ul class="actions">
-									<li>
-										<a href="${project.detailsUrl}" class="button" ${project.detailsUrl.startsWith("http") ? 'target="_blank" rel="noopener noreferrer"' : ""}>
-											${project.buttonText}
-										</a>
-									</li>
-								</ul>
-							</div>
+		projectList.forEach(project => {
+			const projectHTML = `
+				<section>
+					<a href="${project.detailsUrl}" class="image" ${project.detailsUrl.startsWith("http") ? 'target="_blank" rel="noopener noreferrer"' : ""}>
+						<img src="${project.imageUrl}" alt="${project.title}" data-position="${project.imagePosition}" />
+					</a>
+					<div class="content">
+						<div class="inner">
+							<h2>${project.title}</h2>
+							<p>${project.summary}</p>
+							<ul class="actions">
+								<li>
+									<a href="${project.detailsUrl}" class="button" ${project.detailsUrl.startsWith("http") ? 'target="_blank" rel="noopener noreferrer"' : ""}>
+										${project.buttonText}
+									</a>
+								</li>
+							</ul>
 						</div>
-					</section>
-				`;
-				container.innerHTML += projectHTML;
-			});
-		}
-
-		document.addEventListener("DOMContentLoaded", function () {
-			renderProjects(projects);
+					</div>
+				</section>
+			`;
+			container.innerHTML += projectHTML;
 		});
-	</script>
+	}
+</script>
+<script src="js/loadProjects.js"></script>
 
 </body>
 

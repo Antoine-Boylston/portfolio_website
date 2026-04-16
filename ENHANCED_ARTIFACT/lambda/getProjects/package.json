@@ -1,1 +1,10 @@
-
+{
+  "name": "get-projects-lambda",
+  "version": "1.0.0",
+  "description": "Lambda function to retrieve portfolio projects from DynamoDB",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.750.0",
+    "@aws-sdk/lib-dynamodb": "^3.750.0"
+  }
+}

@@ -1,55 +1,103 @@
-# 🌐 My Cloud Portfolio
+# 🌐 Cloud Portfolio Website
 
-Welcome! This repository contains the source code for my personal portfolio website — a central hub for my cloud projects, certifications, and career journey as I transition from Automation Engineering into Cloud Support Engineering.
+Welcome! This repository contains the source code for my personal portfolio website — a central hub for my cloud projects, certifications, and technical growth.
 
-> **Live Site:** [www.antoineboylston.com](https://www.antoineboylston.com)  
-> **Deployed via:** AWS Amplify (with S3, Route 53, and CloudFront)
+> **Live Site:** https://www.antoineboylston.com
+> **Deployed via:** AWS Amplify (S3, CloudFront, Route 53)
 
 ---
 
 ## 🧱 About the Project
 
-This site is more than a portfolio — it’s a **living journal of my growth** in cloud computing and software development.  
-It showcases my journey from building hardware solutions in automation to designing secure, scalable cloud architectures.
+This portfolio is designed to showcase real-world projects and demonstrate practical experience with cloud technologies.
 
-### 🎯 Purpose
-- Demonstrate hands-on experience with **AWS services**
-- Document **projects, certifications, and milestones**
-- Serve as a sandbox for future experiments with **serverless and CI/CD**
+Originally built as a **static frontend application**, the site has evolved to incorporate a **serverless backend architecture**, improving scalability, maintainability, and separation of concerns.
+
+---
+
+## 🚀 Recent Enhancement: Database-Driven Architecture
+
+One of the most significant improvements to this project was redesigning the Projects section to be **fully dynamic and database-driven**.
+
+### What Changed
+
+* Replaced hardcoded project data with **DynamoDB**
+* Implemented **AWS Lambda** to retrieve project records
+* Created a REST API using **API Gateway**
+* Updated frontend to dynamically render project content from API responses
+
+### Architecture
+
+**Frontend → API Gateway → Lambda → DynamoDB**
+
+This allows new projects to be added by inserting records into the database instead of modifying multiple HTML files.
 
 ---
 
 ## ⚙️ Tech Stack
 
-| Layer | Technology |
-|-------|-------------|
-| **Frontend** | HTML, CSS, JavaScript |
-| **Hosting** | AWS S3 + CloudFront CDN |
-| **Deployment** | AWS Amplify (GitHub connected) |
-| **Domain** | Route 53 (Custom Domain: antoineboylston.com) |
-| **Version Control** | Git & GitHub |
-| **Monitoring (future)** | CloudWatch + SNS notifications |
+| Layer           | Technology                    |
+| --------------- | ----------------------------- |
+| Frontend        | HTML, CSS, JavaScript         |
+| Backend         | AWS Lambda                    |
+| API             | API Gateway                   |
+| Database        | DynamoDB                      |
+| Hosting         | AWS Amplify (S3 + CloudFront) |
+| Domain          | Route 53                      |
+| Version Control | Git & GitHub                  |
 
 ---
 
-## 🧩 Key Features
-
-- ✨ **Responsive Design:** Optimized for desktop and mobile  
-- ☁️ **AWS-Powered Hosting:** Built with S3, CloudFront, and Amplify  
-- 🚀 **Fast Global Delivery:** CDN-enabled performance  
-- 🧠 **Project Showcase:** Each project includes diagrams, tech stacks, and cost breakdowns  
-- 🔒 **Security First:** HTTPS enforced with AWS Certificate Manager (ACM)
-
----
-
-## 📁 Folder Structure
+## 📁 Repository Structure
 
 ```bash
-portfolio/
-├── assets/              # Images, icons, and diagrams
-├── css/                 # Stylesheets
-├── js/                  # Scripts
-├── index.html           # Homepage
-├── projects.html        # Projects page
-├── contact.html         # Contact page
-└── README.md            # This file
+portfolio_website/
+├── ORIGINAL_ARTIFACT/        # Initial static version of the site
+├── ENHANCED_ARTIFACT/        # Database-driven implementation
+│   ├── frontend/
+│   ├── lambda/
+│   ├── database/
+│   └── api/
+├── COMPARISON.md             # Breakdown of improvements
+└── README.md
+```
+
+---
+
+## 📊 Key Improvement
+
+| Feature      | Before             | After           |
+| ------------ | ------------------ | --------------- |
+| Data Storage | Hardcoded JS array | DynamoDB        |
+| Backend      | None               | AWS Lambda      |
+| API          | None               | API Gateway     |
+| Updates      | Manual edits       | Database-driven |
+
+---
+
+## 🎯 Why This Matters
+
+This enhancement reflects a shift from a static website to a **cloud-native application**, demonstrating:
+
+* Scalable architecture design
+* Backend development using serverless technologies
+* Integration between frontend and cloud services
+* Real-world application of AWS best practices
+
+---
+
+## 📌 Academic Context (CS-499 Capstone)
+
+This enhancement was further formalized as part of my Computer Science capstone project, focusing on database design and cloud integration.
+
+For academic documentation and comparison of the original and enhanced versions:
+
+* See: `COMPARISON.md`
+* Database design: `ENHANCED_ARTIFACT/database/`
+* Backend implementation: `ENHANCED_ARTIFACT/lambda/`
+
+---
+
+## 📎 Notes
+
+This repository reflects ongoing development. The portfolio continues to evolve as I build new projects and expand my cloud skill set.

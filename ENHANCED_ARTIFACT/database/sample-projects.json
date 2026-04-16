@@ -1,1 +1,42 @@
-
+[
+  {
+    "projectId": "proj-001",
+    "title": "Industrial Automation & PLC Systems",
+    "summary": "Designed PLC-based control systems including motor interlocking, timer-based sequencing, and HMI integration using ladder logic.",
+    "imageUrl": "images/projects/door-control/door-sim.PNG",
+    "detailsUrl": "door-control.html",
+    "imagePosition": "center center",
+    "buttonText": "View Project",
+    "displayOrder": 1
+  },
+  {
+    "projectId": "proj-002",
+    "title": "3-Tier Architecture on AWS",
+    "summary": "Designed and deployed a secure 3-tier architecture on AWS with separate web, application, and database layers.",
+    "imageUrl": "images/pic01.jpg",
+    "detailsUrl": "3-tier.html",
+    "imagePosition": "center center",
+    "buttonText": "Learn more",
+    "displayOrder": 2
+  },
+  {
+    "projectId": "proj-003",
+    "title": "CS-499 Capstone Code Review",
+    "summary": "Recorded a code review walkthrough introducing the original artifact, planned enhancements, and overall capstone direction.",
+    "imageUrl": "images/capstone_thumbnail.png",
+    "detailsUrl": "capstone-video.html",
+    "imagePosition": "top center",
+    "buttonText": "View details",
+    "displayOrder": 3
+  },
+  {
+    "projectId": "proj-004",
+    "title": "GitHub Projects",
+    "summary": "Explore my GitHub repositories featuring coursework, technical projects, and ongoing development work.",
+    "imageUrl": "images/git_tumbnail.png",
+    "detailsUrl": "https://github.com/Antoine-Boylston",
+    "imagePosition": "25% 25%",
+    "buttonText": "View GitHub",
+    "displayOrder": 4
+  }
+]
