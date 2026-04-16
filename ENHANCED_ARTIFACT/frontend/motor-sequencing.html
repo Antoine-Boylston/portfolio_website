@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Sequential Motor Control | Antoine Boylston</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<header id="header">
+    <a href="index.html" class="title">Home</a>
+    <nav>
+        <ul>
+            <li><a href="door-control.html" class="active">Door Control</a></li>
+            <li><a href="motor-sequencing.html">Motor Sequencing</a></li>
+        </ul>
+    </nav>
+</header>
+
+<body>
+
+    <div id="wrapper">
+
+        <section class="main">
+            <div class="inner">
+
+                <header class="major">
+                    <h1>Sequential Motor Control Using TON Timers</h1>
+                    <p>RSLogix 500 | Ladder Logic | Timed Sequencing</p>
+                </header>
+
+                <h2>Overview</h2>
+                <p>
+                    This project demonstrates a basic motor sequencing application using ladder logic and timer-on-delay
+                    instructions in RSLogix 500. The control logic was designed to start outputs in sequence after a
+                    valid
+                    start condition, using timers to create predictable transitions between operating states.
+                </p>
+
+                <h2>System Design</h2>
+                <ul>
+                    <li>Start and Stop pushbuttons</li>
+                    <li>Emergency stop input</li>
+                    <li>Overload status condition</li>
+                    <li>Motor outputs sequenced using TON timers</li>
+                </ul>
+
+                <h2>Ladder Logic</h2>
+                <span class="image fit">
+                    <img src="images/projects/motor-sequencing/motor-sequencing.PNG"
+                        alt="Sequential motor control ladder logic" />
+                </span>
+                <p><strong>Figure 1:</strong> Ladder logic showing start permissives, latched control, timer-on-delay
+                    instructions, and staged motor/output sequencing.</p>
+
+                <h2>HMI Visualization</h2>
+                <span class="image fit">
+                    <img src="images/projects/motor-sequencing/motor-hmi.PNG" alt="Motor sequencing HMI interface" />
+                </span>
+                <p><strong>Figure 2:</strong> HMI interface displaying system status, timer progression, and output
+                    states. Indicators are mapped directly to PLC tags, providing real-time feedback of the control
+                    sequence.</p>
+
+                <h2>Control Logic Highlights</h2>
+                <ul>
+                    <li><strong>Start Permissives:</strong> The sequence only begins when the E-stop, stop condition,
+                        and overload conditions are in a valid state.</li>
+                    <li><strong>Seal-In Logic:</strong> The first motor/output is latched after start, maintaining
+                        operation until the logic is interrupted.</li>
+                    <li><strong>TON-Based Sequencing:</strong> Timer-on-delay instructions are used to trigger the next
+                        stage in the sequence after a defined delay.</li>
+                    <li><strong>Ordered Startup:</strong> Outputs energize in a controlled progression rather than all
+                        at once.</li>
+                </ul>
+
+                <h2>HMI Integration</h2>
+                <p>
+                    The HMI interface was designed to reflect real-time system behavior by mapping visual indicators
+                    directly to PLC tags.
+                    Each output and timer state is represented visually, allowing operators to quickly understand system
+                    status and sequence progression. This approach mirrors how HMI systems like FactoryTalk View are
+                    used in production environments to provide operators with clear, real-time system feedback.
+                </p>
+
+                <ul>
+                    <li><strong>Tag Mapping:</strong> HMI indicators are linked to PLC outputs and timer values.</li>
+                    <li><strong>State Visibility:</strong> Operators can see which stage of the sequence is active.</li>
+                    <li><strong>Timer Feedback:</strong> Visual indicators display timer accumulation and completion.
+                    </li>
+                </ul>
+
+                <h2>Engineering Value</h2>
+                <p>
+                    Timed sequencing is a foundational controls concept used to coordinate equipment startup, reduce
+                    inrush
+                    conditions, and create predictable machine behavior. This project demonstrates structured logic
+                    design,
+                    safe startup conditions, and the use of timers to manage control flow.
+                </p>
+
+                <h2>How I Would Expand It</h2>
+                <ul>
+                    <li>Add shutdown sequencing logic</li>
+                    <li>Add alarm handling for overload or failed startup conditions</li>
+                    <li>Add HMI indicators for each stage of the sequence</li>
+                    <li>Convert repeated logic into a more modular structure</li>
+                </ul>
+
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>
